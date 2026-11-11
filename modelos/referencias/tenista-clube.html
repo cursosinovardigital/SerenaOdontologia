@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baseline — Clube de Tênis &amp; Academia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script type="importmap">
+  {
+    "imports": {
+      "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.18/+esm"
+    }
+  }
+  </script>
+
+  <style>
+    /* ==========================================================================
+       1. Variáveis de Design & CSS Reset
+       ========================================================================== */
+    :root {
+      --background: #ffffff;
+      --foreground: #0a0a0a;
+      --brand: #2563c9;
+      --brand-deep: #0f2f63;
+      --brand-light: #5790e6;
+      --accent-teal: #0b6e97;
+      --surface: #f4f4f4;
+      --surface-card: #ffffff;
+      --ink: #0a0a0a;
+      --ink-soft: #717784;
+      --ghost: #d7dae1;
+      --hairline: #e6e8ec;
+      --on-brand: #ffffff;
+
+      --radius-card: 1.5rem;
+      --radius-card-lg: 2rem;
+      --radius-pill: 62.5rem;
+      --radius-xl: 0.75rem;
+
+      /* Curvas de Animação */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: auto;
+    }
+
+    /* Grid Rem Adaptativo */
+    @media (max-width: 1920px) { html { font-size: 0.833333vw; } }
+    @media (max-width: 1440px) { html { font-size: 1.111111vw; } }
+    @media (max-width: 1024px) { html { font-size: 1.5625vw; } }
+    @media (max-width: 640px)  { html { font-size: 4.444444vw; } }
+
+    body {
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--foreground);
+      font-family: "Onest", system-ui, -apple-system, sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--brand-light);
+      outline-offset: 2px;
+    }
+
+    /* Enquadramento Principal da Página */
+    main#page-wrap {
+      width: 100%;
+      padding: 0.5rem;
+      overflow-x: clip;
+    }
+    @media (min-width: 640px) {
+      main#page-wrap {
+        padding: 0.75rem;
+      }
+    }
+
+    /* ==========================================================================
+       2. Tipografia & Componentes Comuns
+       ========================================================================== */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+    .eyebrow-dot {
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: var(--radius-pill);
+    }
+    .eyebrow-dark {
+      color: var(--ink-soft);
+    }
+    .eyebrow-dark .eyebrow-dot {
+      background-color: var(--brand);
+    }
+    .eyebrow-light {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .eyebrow-light .eyebrow-dot {
+      background-color: var(--brand-light);
+    }
+
+    /* Botão Pílula */
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: var(--radius-pill);
+      padding: 0.875rem 1.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .pill-btn svg {
+      width: 1rem;
+      height: 1rem;
+      transition: transform 0.25s var(--ease-out-expo);
+    }
+    @media (min-width: 769px) {
+      .pill-btn:hover svg {
+        transform: translateX(5px);
+      }
+    }
+    .pill-btn-light {
+      background: #ffffff;
+      color: var(--brand-deep);
+    }
+    @media (min-width: 769px) {
+      .pill-btn-light:hover {
+        background: var(--brand-light);
+        color: #ffffff;
+      }
+    }
+    .pill-btn-solid {
+      background: var(--ink);
+      color: #ffffff;
+    }
+    @media (min-width: 769px) {
+      .pill-btn-solid:hover {
+        background: var(--brand-deep);
+      }
+    }
+
+    /* Botão de Seta Circular */
+    .arrow-btn {
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+    @media (min-width: 640px) {
+      .arrow-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+    }
+    .arrow-btn svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      transition: transform 0.2s var(--ease-out-expo);
+    }
+    @media (min-width: 769px) {
+      .arrow-btn:hover svg {
+        transform: scale(1.15);
+      }
+    }
+    .arrow-btn-outline {
+      border-color: var(--hairline);
+      color: var(--ink);
+      background: transparent;
+    }
+    @media (min-width: 769px) {
+      .arrow-btn-outline:hover {
+        border-color: var(--ink);
+      }
+    }
+    .arrow-btn-solid {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #ffffff;
+    }
+    @media (min-width: 769px) {
+      .arrow-btn-solid:hover {
+        background: var(--brand-deep);
+        border-color: var(--brand-deep);
+      }
+    }
+
+    /* Indicadores / Dots */
+    .carousel-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dot-item {
+      padding: 0.375rem;
+      display: flex;
+      align-items: center;
+    }
+    .dot-pill {
+      height: 0.375rem;
+      width: 0.375rem;
+      border-radius: var(--radius-pill);
+      transition: width 0.3s var(--ease-out-expo), background-color 0.3s;
+    }
+    .dots-dark .dot-pill { background-color: var(--ghost); }
+    .dots-dark .dot-item.active .dot-pill {
+      width: 1.25rem;
+      background-color: var(--ink);
+    }
+    .dots-light .dot-pill { background-color: rgba(255, 255, 255, 0.4); }
+    .dots-light .dot-item.active .dot-pill {
+      width: 1.25rem;
+      background-color: #ffffff;
+    }
+
+    /* Animação por Máscara de Corte (Clip-mask) */
+    .clip-line {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 0.14em;
+    }
+    .clip-word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+      padding-bottom: 0.14em;
+    }
+    .mask-target {
+      display: inline-block;
+      transform: translateY(115%);
+      opacity: 0;
+      transition: transform 0.95s var(--ease-out-expo), opacity 0.8s;
+      will-change: transform, opacity;
+    }
+    .revealed .mask-target,
+    .is-inview .mask-target {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Inview Helper */
+    .inview-block {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s var(--ease-out-quart), transform 0.8s var(--ease-out-expo);
+      will-change: transform, opacity;
+    }
+    .inview-block.is-inview {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================================================
+       3. Tela de Abertura / Loader
+       ========================================================================== */
+    #page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background-color: var(--brand-deep);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transform: translateY(0%);
+      transition: transform 0.85s var(--ease-in-out-cubic);
+      will-change: transform;
+    }
+    .loader-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
+    }
+    .loader-brand svg {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+    .loader-bar-wrap {
+      width: 10rem;
+      height: 1px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-bar-fill {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.28s var(--ease-in-out-cubic);
+    }
+
+    /* ==========================================================================
+       4. Cabeçalho do Site
+       ========================================================================== */
+    .site-header {
+      width: 100%;
+      padding: 1.5rem 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+      font-size: 0.75rem;
+      position: relative;
+      z-index: 30;
+    }
+    @media (min-width: 640px) {
+      .site-header {
+        padding: 2rem 2.5rem 0;
+      }
+    }
+    .header-nav-left {
+      display: none;
+      flex: 1;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .header-nav-left {
+        display: flex;
+      }
+    }
+    .header-nav-left a {
+      color: rgba(255, 255, 255, 0.9);
+      transition: color 0.2s;
+    }
+    .header-nav-left a:hover {
+      color: #ffffff;
+    }
+    .header-brand {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+    @media (min-width: 1024px) {
+      .header-brand {
+        justify-content: center;
+      }
+    }
+    .header-brand svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    .header-actions-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .header-actions-right {
+        gap: 1.25rem;
+      }
+    }
+    .book-visit-btn {
+      display: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #ffffff;
+    }
+    @media (min-width: 640px) {
+      .book-visit-btn {
+        display: inline-block;
+      }
+    }
+    .book-visit-btn:hover {
+      text-decoration: underline;
+    }
+    .burger-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.2s;
+    }
+    .burger-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .burger-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .burger-bars span {
+      display: block;
+      width: 1rem;
+      height: 1px;
+      background: #ffffff;
+    }
+
+    /* ==========================================================================
+       5. Hero Section
+       ========================================================================== */
+    .hero-section {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border-radius: var(--radius-card-lg);
+      background-color: var(--brand-deep);
+      color: #ffffff;
+      height: calc(100svh - 1rem);
+      min-height: 36rem;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 640px) {
+      .hero-section {
+        height: calc(100svh - 1.5rem);
+      }
+    }
+    .hero-bg-plate {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -16%;
+      height: 132%;
+      width: 100%;
+      z-index: -10;
+      will-change: transform;
+    }
+    .hero-bg-plate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15, 47, 99, 0.65), rgba(15, 47, 99, 0.35), rgba(15, 47, 99, 0.75));
+    }
+
+    .hero-title-wrap {
+      padding: 1rem 1.5rem 0;
+    }
+    @media (min-width: 640px) {
+      .hero-title-wrap {
+        padding: 1rem 2.5rem 0;
+      }
+    }
+    .hero-h1 {
+      font-size: 12.5vw;
+      font-weight: 500;
+      text-transform: uppercase;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      display: flex;
+      gap: 0.25em;
+    }
+
+    .hero-bottom-row {
+      margin-top: auto;
+      padding: 0 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .hero-bottom-row {
+        padding: 0 2.5rem 2.5rem;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+    .hero-tagline {
+      font-size: 2.4rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .hero-right-cluster {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+    }
+
+    /* Slider de Coleção Hero */
+    .hero-collection-slider {
+      display: none;
+      width: 16rem;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    @media (min-width: 768px) {
+      .hero-collection-slider {
+        display: flex;
+      }
+    }
+    .hero-glass-card {
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.75rem;
+      box-shadow: 0 8px 32px rgba(15, 47, 99, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .hero-card-thumb {
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .hero-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-card-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .hero-card-brand {
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hero-card-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+    .hero-card-cta {
+      font-size: 0.65rem;
+      text-decoration: underline;
+      margin-top: 0.2rem;
+      opacity: 0.9;
+    }
+
+    /* Card de Membros Hero */
+    .hero-membership-card {
+      width: 100%;
+      max-width: 20rem;
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.75rem;
+      box-shadow: 0 8px 32px rgba(15, 47, 99, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+    @media (min-width: 640px) {
+      .hero-membership-card {
+        width: 15rem;
+      }
+    }
+    .membership-left-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .membership-big-val {
+      font-size: 1.875rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+    .membership-avatars {
+      display: flex;
+      align-items: center;
+      margin: 0.35rem 0;
+    }
+    .membership-avatar-dot {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(15, 47, 99, 0.4);
+      margin-left: -0.5rem;
+    }
+    .membership-avatar-dot:first-child {
+      margin-left: 0;
+    }
+    .membership-caption {
+      font-size: 0.65rem;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+    .membership-thumb {
+      width: 4rem;
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .membership-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ==========================================================================
+       6. Trust Section (Carrossel de Treinadores & Ghost Words)
+       ========================================================================== */
+    .trust-section {
+      background: var(--background);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 4rem 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .trust-section {
+        padding: 5rem 2.5rem;
+      }
+    }
+    .trust-top-badges {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .trust-top-badges {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+    }
+    .percentage-badge {
+      width: 7rem;
+      height: 7rem;
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .percentage-badge {
+        width: 8rem;
+        height: 8rem;
+      }
+    }
+    .percentage-badge-val {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+    .percentage-badge-sub {
+      font-size: 0.6rem;
+      color: var(--ink-soft);
+      max-width: 8em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .trust-badge-card {
+      max-width: 28rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: var(--radius-card);
+      background: var(--surface);
+      padding: 1.25rem;
+    }
+    @media (min-width: 640px) {
+      .trust-badge-card {
+        padding: 1.5rem;
+      }
+    }
+    .trust-badge-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .trust-chip {
+      background: var(--background);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-xl);
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+    .trust-card-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+    .trust-card-body {
+      font-size: 0.75rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    /* Ghost Headline */
+    .trust-ghost-wrap {
+      position: relative;
+      z-index: 0;
+      user-select: none;
+      pointer-events: none;
+      max-width: 88rem;
+      margin: 3rem auto 0;
+      font-size: 8.2vw;
+      font-weight: 500;
+      text-transform: uppercase;
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+    }
+    .ghost-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .ghost-word {
+      color: var(--ghost);
+      will-change: transform;
+    }
+    .ghost-word.highlight {
+      color: var(--ink);
+    }
+
+    /* Card Central do Treinador */
+    .coach-card-wrap {
+      position: relative;
+      z-index: 10;
+      margin: 2rem auto 0;
+      width: 13rem;
+    }
+    @media (min-width: 640px) {
+      .coach-card-wrap {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        width: 16rem;
+      }
+    }
+    .coach-figure {
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-card);
+      background: var(--brand);
+      overflow: hidden;
+      position: relative;
+      transform: rotate(6deg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    .coach-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.4s ease;
+    }
+    .coach-caption {
+      position: absolute;
+      inset: auto 0.75rem 0.75rem 0.75rem;
+      border-radius: var(--radius-xl);
+      background: rgba(15, 47, 99, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 0.5rem 0.75rem;
+    }
+    .coach-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .coach-role {
+      font-size: 0.65rem;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .trust-controls-row {
+      position: relative;
+      z-index: 20;
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    @media (min-width: 640px) {
+      .trust-controls-row {
+        margin-top: 6rem;
+      }
+    }
+
+    /* ==========================================================================
+       7. Programs Section
+       ========================================================================== */
+    .programs-section {
+      background: var(--surface);
+      padding: 6rem 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .programs-section {
+        padding: 6rem 2.5rem;
+      }
+    }
+    .programs-h2 {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+    .programs-list {
+      list-style: none;
+      margin-top: 3.5rem;
+    }
+    .program-row {
+      border-top: 1px solid var(--hairline);
+    }
+    .program-row:last-child {
+      border-bottom: 1px solid var(--hairline);
+    }
+    .program-link {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+      transition: background 0.2s;
+    }
+    .program-link:focus-visible {
+      background: var(--background);
+    }
+    .program-index {
+      width: 2.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      flex-shrink: 0;
+    }
+    .program-info {
+      flex: 1;
+    }
+    .program-name {
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    @media (min-width: 640px) {
+      .program-name {
+        font-size: 1.875rem;
+      }
+    }
+    .program-desc {
+      font-size: 0.875rem;
+      color: var(--ink-soft);
+      margin-top: 0.25rem;
+    }
+    .program-arrow-wrap {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--hairline);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .program-arrow-wrap svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke: currentColor;
+      opacity: 0.55;
+      transform: translateX(0);
+      transition: transform 0.25s var(--ease-out-expo), opacity 0.25s;
+    }
+    @media (min-width: 769px) {
+      .program-link:hover .program-arrow-wrap svg {
+        opacity: 1;
+        transform: translateX(8px);
+      }
+    }
+
+    /* ==========================================================================
+       8. Facilities Section
+       ========================================================================== */
+    .facilities-section {
+      background: var(--background);
+      border-radius: var(--radius-card-lg);
+      margin-top: -2.5rem;
+      padding: 4rem 1.5rem 5rem;
+      position: relative;
+      z-index: 10;
+    }
+    @media (min-width: 640px) {
+      .facilities-section {
+        padding: 4rem 2.5rem 5rem;
+      }
+    }
+    .facilities-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: flex-end;
+    }
+    @media (min-width: 768px) {
+      .facilities-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .facilities-intro-col {
+      max-width: 24rem;
+    }
+    .facilities-intro-icon {
+      width: 4rem;
+      height: 4rem;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+    }
+    .facilities-intro-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .facilities-h2 {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-top: 1.5rem;
+    }
+    .facilities-body {
+      font-size: 0.875rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      max-width: 20rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Cartões de Quadra */
+    .facilities-cards-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.25rem;
+    }
+    .court-figure {
+      flex: 1;
+      aspect-ratio: 3/4;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      background: var(--surface);
+      position: relative;
+    }
+    .court-figure:last-child {
+      margin-bottom: 2rem;
+    }
+    .court-figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform 0.4s var(--ease-out-expo);
+    }
+    @media (min-width: 769px) {
+      .court-figure:hover img {
+        transform: scale(1.03);
+      }
+    }
+    .court-caption {
+      position: absolute;
+      inset: auto 0.75rem 0.75rem 0.75rem;
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 0.75rem 1rem;
+    }
+    .court-caption-clay { background: rgba(15, 47, 99, 0.4); }
+    .court-caption-blue { background: rgba(11, 110, 151, 0.55); }
+    .court-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .court-desc {
+      font-size: 0.65rem;
+      opacity: 0.85;
+      margin-top: 0.15rem;
+    }
+
+    /* ==========================================================================
+       9. Stats Section
+       ========================================================================== */
+    .stats-section {
+      background: var(--brand-deep);
+      color: #ffffff;
+      border-radius: var(--radius-card-lg);
+      margin-top: 0.75rem;
+      padding: 5rem 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .stats-section {
+        padding: 5rem 2.5rem;
+      }
+    }
+    .stats-h2 {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 2rem;
+      row-gap: 3rem;
+      margin-top: 4rem;
+    }
+    @media (min-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .stat-cell {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1.25rem;
+    }
+    .stat-val {
+      font-size: 3.75rem;
+      font-weight: 500;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+    }
+    @media (min-width: 640px) {
+      .stat-val {
+        font-size: 4.5rem;
+      }
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 0.75rem;
+    }
+
+    /* ==========================================================================
+       10. Testimonials Section
+       ========================================================================== */
+    .testimonials-section {
+      background: var(--background);
+      padding: 5rem 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .testimonials-section {
+        padding: 6rem 2.5rem;
+      }
+    }
+    .testimonials-h2 {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+    .testimonials-grid {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin-top: 3.5rem;
+    }
+    @media (min-width: 768px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .testimonial-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      border-radius: var(--radius-card);
+      background: var(--surface);
+      padding: 1.75rem;
+      transition: transform 0.3s var(--ease-out-expo);
+      will-change: transform;
+    }
+    @media (min-width: 769px) {
+      .testimonial-card:hover {
+        transform: translateY(-8px);
+      }
+    }
+    .quote-mark {
+      font-size: 2.25rem;
+      color: var(--brand);
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--ink);
+      margin-top: 1rem;
+      flex: 1;
+    }
+    .testimonial-author {
+      border-top: 1px solid var(--hairline);
+      padding-top: 1rem;
+      margin-top: 1.5rem;
+    }
+    .author-name {
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    .author-role {
+      font-size: 0.875rem;
+      color: var(--ink-soft);
+      margin-top: 0.15rem;
+    }
+
+    /* ==========================================================================
+       11. Footer
+       ========================================================================== */
+    .site-footer {
+      background: var(--brand-deep);
+      color: #ffffff;
+      border-radius: var(--radius-card-lg);
+      margin-top: 0.75rem;
+      padding: 3.5rem 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .site-footer {
+        padding: 4rem 2.5rem;
+      }
+    }
+    .footer-cta-band {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      padding-bottom: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .footer-cta-band {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+    }
+    .footer-cta-h2 {
+      font-size: 3.75rem;
+      font-weight: 500;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+    .footer-cols-grid {
+      padding: 3.5rem 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .footer-cols-grid {
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      }
+    }
+    .footer-brand-col {
+      max-width: 20rem;
+    }
+    .footer-brand-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+    .footer-brand-title svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    .footer-blurb {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+    .footer-address {
+      font-style: normal;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .footer-address a:hover {
+      text-decoration: underline;
+    }
+    .footer-address-line {
+      color: rgba(255, 255, 255, 0.55);
+    }
+    .footer-nav-col h3 {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 1.25rem;
+    }
+    .footer-nav-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .footer-nav-col a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .footer-bottom-bar {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 2rem;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    @media (min-width: 640px) {
+      .footer-bottom-bar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .footer-legal-links,
+    .footer-social-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .footer-legal-links a:hover,
+    .footer-social-links a:hover {
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       12. Menu Overlay em Tela Cheia
+       ========================================================================== */
+    #menu-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 170;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-out-expo);
+    }
+    #menu-overlay.is-active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+    .menu-backdrop {
+      position: absolute;
+      inset: 0;
+      background: var(--brand-deep);
+    }
+    .menu-panel {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .menu-panel {
+        padding: 0.75rem;
+      }
+    }
+    .menu-inner-wrap {
+      padding: 1.5rem 1.5rem 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #ffffff;
+    }
+    @media (min-width: 640px) {
+      .menu-inner-wrap {
+        padding: 2rem 2.5rem;
+      }
+    }
+    .menu-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .close-circle-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.15);
+      display: grid;
+      place-items: center;
+      transition: background 0.2s;
+    }
+    .close-circle-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .close-circle-btn svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke: #ffffff;
+      stroke-width: 1.8;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+    @media (min-width: 769px) {
+      .close-circle-btn:hover svg {
+        transform: rotate(90deg);
+      }
+    }
+    .menu-nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: auto 0;
+    }
+    .menu-big-link {
+      font-size: 3rem;
+      font-weight: 500;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      display: block;
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+    @media (min-width: 640px) {
+      .menu-big-link {
+        font-size: 4.5rem;
+      }
+    }
+    .menu-big-link:hover {
+      color: var(--brand-light);
+    }
+    .menu-bottom-row {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .menu-bottom-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .menu-social-links {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .menu-social-links a:hover {
+      color: #ffffff;
+    }
+
+    /* ==========================================================================
+       13. Modal de Agendamento (Contato)
+       ========================================================================== */
+    #contact-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0.75rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-out-expo);
+    }
+    @media (min-width: 640px) {
+      #contact-modal {
+        align-items: center;
+        padding: 1.5rem;
+      }
+    }
+    #contact-modal.is-active {
+      pointer-events: auto;
+      opacity: 1;
+    }
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 47, 99, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .modal-panel {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 32rem;
+      max-height: 92svh;
+      overflow-y: auto;
+      border-radius: var(--radius-card-lg);
+      background: var(--surface-card);
+      color: var(--ink);
+      padding: 1.5rem;
+      box-shadow: 0 24px 48px rgba(15, 47, 99, 0.3);
+      transform: translateY(28px) scale(0.96);
+      transition: transform 0.4s var(--ease-out-expo);
+    }
+    @media (min-width: 640px) {
+      .modal-panel {
+        padding: 2rem;
+      }
+    }
+    #contact-modal.is-active .modal-panel {
+      transform: translateY(0) scale(1);
+    }
+    .modal-header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .modal-h2 {
+      font-size: 2.25rem;
+      font-weight: 500;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-top: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .modal-h2 {
+        font-size: 3rem;
+      }
+    }
+    .modal-close-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      display: grid;
+      place-items: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .modal-close-btn:hover {
+      background: var(--hairline);
+    }
+    .modal-close-btn svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke: var(--ink);
+      stroke-width: 1.8;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+    @media (min-width: 769px) {
+      .modal-close-btn:hover svg {
+        transform: rotate(90deg);
+      }
+    }
+    .modal-form {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--ink-soft);
+    }
+    .form-input {
+      width: 100%;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--hairline);
+      background: var(--background);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: var(--ink);
+      outline: none;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      border-color: var(--brand-light);
+    }
+    .modal-submit-btn {
+      border-radius: var(--radius-pill);
+      background: var(--ink);
+      color: #ffffff;
+      padding: 0.875rem 1.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .modal-submit-btn:hover:not(:disabled) {
+      background: var(--brand-deep);
+    }
+    .modal-submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .modal-success-box {
+      margin-top: 2rem;
+      border-radius: var(--radius-card);
+      background: var(--surface);
+      padding: 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .success-check-circle {
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius-pill);
+      background: var(--brand);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+    }
+    .success-check-circle svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      stroke-width: 2.2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TELA DE ABERTURA / LOADER
+       ======================================================================== -->
+  <div id="page-loader" role="status" aria-label="Carregando">
+    <div class="loader-brand" id="loader-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M4.8 5.6A9 9 0 0 0 4.8 18.4"/>
+        <path d="M19.2 5.6a9 9 0 0 1 0 12.8"/>
+      </svg>
+      <span>Baseline</span>
+    </div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar-fill" id="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       CONTEÚDO PRINCIPAL (ENQUADRAMENTO PADRÃO)
+       ======================================================================== -->
+  <main id="page-wrap">
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <!-- Placa de Fundo com Parallax -->
+      <div class="hero-bg-plate" id="hero-plate">
+        <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/hero/hero-court.webp" 
+             alt="Jogador se esticando para uma batida na quadra rápida"
+             fetchpriority="high" loading="eager">
+        <div class="hero-bg-overlay"></div>
+      </div>
+
+      <!-- Cabeçalho Integrado -->
+      <header class="site-header">
+        <nav class="header-nav-left" aria-label="Navegação Principal">
+          <a href="#programs">Programas &amp; Treinadores</a>
+          <a href="#facilities">Clube &amp; Eventos</a>
+        </nav>
+        <div class="header-brand">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M4.8 5.6A9 9 0 0 0 4.8 18.4"/>
+            <path d="M19.2 5.6a9 9 0 0 1 0 12.8"/>
+          </svg>
+          <span>Baseline</span>
+        </div>
+        <div class="header-actions-right">
+          <button class="book-visit-btn open-modal-trigger">Agendar Visita</button>
+          <button class="burger-btn" id="open-menu-btn" aria-label="Abrir menu de navegação">
+            <div class="burger-bars">
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Título Principal -->
+      <div class="hero-title-wrap">
+        <h1 class="hero-h1" id="hero-title">
+          <span class="clip-word"><span class="mask-target">Domine</span></span>
+          <span class="clip-word"><span class="mask-target">A</span></span>
+          <span class="clip-word"><span class="mask-target">Quadra</span></span>
+        </h1>
+      </div>
+
+      <!-- Rodapé do Hero -->
+      <div class="hero-bottom-row">
+        <div class="hero-tagline" id="hero-tagline">
+          <span class="clip-line"><span class="mask-target">Entre em Jogo,</span></span>
+          <span class="clip-line"><span class="mask-target">Suba de Nível</span></span>
+        </div>
+
+        <div class="hero-right-cluster">
+          <!-- Slider Coleções -->
+          <div class="hero-collection-slider inview-block" id="hero-collection-slider">
+            <article class="hero-glass-card" id="collection-card">
+              <div class="hero-card-thumb">
+                <img id="col-img" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/2.webp" alt="Jogador batendo backhand na quadra">
+              </div>
+              <div class="hero-card-text">
+                <span class="hero-card-brand" id="col-brand">Baseline Pro</span>
+                <span class="hero-card-title" id="col-title">Equipamentos em Destaque</span>
+                <a href="#shop" class="hero-card-cta" id="col-cta">Ver equipamentos &rarr;</a>
+              </div>
+            </article>
+            <div class="carousel-dots dots-light" id="col-dots">
+              <button class="dot-item active" aria-label="Coleção 1"><span class="dot-pill"></span></button>
+              <button class="dot-item" aria-label="Coleção 2"><span class="dot-pill"></span></button>
+              <button class="dot-item" aria-label="Coleção 3"><span class="dot-pill"></span></button>
+            </div>
+          </div>
+
+          <!-- Card Membros -->
+          <article class="hero-membership-card inview-block" id="hero-membership-card">
+            <div class="membership-left-col">
+              <div class="membership-big-val">9K+</div>
+              <div class="membership-avatars">
+                <div class="membership-avatar-dot" style="background-color: #5790e6;"></div>
+                <div class="membership-avatar-dot" style="background-color: #c2e029;"></div>
+                <div class="membership-avatar-dot" style="background-color: #0b6e97;"></div>
+                <div class="membership-avatar-dot" style="background-color: #ffffff;"></div>
+              </div>
+              <div class="membership-caption">Membros em Quadra</div>
+            </div>
+            <div class="membership-thumb">
+              <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/1.webp" alt="Jogador se preparando na quadra de saibro">
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. TRUST SECTION -->
+    <section class="trust-section" id="about">
+      <div class="trust-top-badges">
+        <div class="percentage-badge inview-block">
+          <span class="percentage-badge-val">100%</span>
+          <span class="percentage-badge-sub">Treino desenhado para o seu jogo</span>
+        </div>
+        <article class="trust-badge-card inview-block" style="transition-delay: 120ms;">
+          <div class="trust-badge-card-header">
+            <div class="trust-chip">#01</div>
+            <h3 class="trust-card-title">Aprovado por jogadores dedicados</h3>
+          </div>
+          <p class="trust-card-body">
+            De iniciantes a atletas juvenis no ranking nacional, nossos atletas treinam aqui porque a evolução é nítida no placar.
+          </p>
+        </article>
+      </div>
+
+      <!-- Letras Gigantes de Fundo com Parallax -->
+      <div class="trust-ghost-wrap" id="trust-ghost-title" aria-hidden="true">
+        <div class="ghost-row">
+          <span class="clip-word"><span class="mask-target ghost-word" id="gw-0">Treino</span></span>
+          <span class="clip-word"><span class="mask-target ghost-word" id="gw-1">Focado em</span></span>
+        </div>
+        <div class="ghost-row">
+          <span class="clip-word"><span class="mask-target ghost-word highlight" id="gw-2">Altos</span></span>
+          <span class="clip-word"><span class="mask-target ghost-word" id="gw-3">Resultados</span></span>
+        </div>
+      </div>
+
+      <!-- Card do Treinador Central -->
+      <div class="coach-card-wrap">
+        <figure class="coach-figure inview-block">
+          <img id="coach-photo" class="coach-img" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/5.webp" alt="Treinador Marco Vidal">
+          <figcaption class="coach-caption">
+            <div class="coach-name" id="coach-name">Marco Vidal</div>
+            <div class="coach-role" id="coach-role">Treinador Chefe</div>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Controles do Carrossel de Treinadores -->
+      <div class="trust-controls-row">
+        <button class="arrow-btn arrow-btn-outline" id="coach-prev" aria-label="Treinador anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+        <div class="carousel-dots dots-dark" id="coach-dots">
+          <button class="dot-item active" aria-label="Treinador 1"><span class="dot-pill"></span></button>
+          <button class="dot-item" aria-label="Treinador 2"><span class="dot-pill"></span></button>
+          <button class="dot-item" aria-label="Treinador 3"><span class="dot-pill"></span></button>
+        </div>
+        <button class="arrow-btn arrow-btn-solid" id="coach-next" aria-label="Próximo treinador">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. PROGRAMS SECTION -->
+    <section class="programs-section" id="programs">
+      <div class="eyebrow eyebrow-dark">
+        <span class="eyebrow-dot"></span>
+        <span>Programas de Treinamento</span>
+      </div>
+      <h2 class="programs-h2" id="programs-title">
+        <span class="clip-line"><span class="mask-target">Feitos Para</span></span>
+        <span class="clip-line"><span class="mask-target">Todos Os Níveis</span></span>
+      </h2>
+
+      <ul class="programs-list">
+        <li class="program-row inview-block" style="transition-delay: 0ms;">
+          <a href="#junior" class="program-link">
+            <span class="program-index">01</span>
+            <div class="program-info">
+              <h3 class="program-name">Formação Juvenil</h3>
+              <p class="program-desc">Fundamentos, movimentação e jogos táticos para atletas de 6 a 14 anos.</p>
+            </div>
+            <div class="program-arrow-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </div>
+          </a>
+        </li>
+        <li class="program-row inview-block" style="transition-delay: 90ms;">
+          <a href="#performance" class="program-link">
+            <span class="program-index">02</span>
+            <div class="program-info">
+              <h3 class="program-name">Equipe de Alto Rendimento</h3>
+              <p class="program-desc">Treinamento intensivo de alto volume para tenistas competitivos e ranqueados.</p>
+            </div>
+            <div class="program-arrow-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </div>
+          </a>
+        </li>
+        <li class="program-row inview-block" style="transition-delay: 180ms;">
+          <a href="#adult" class="program-link">
+            <span class="program-index">03</span>
+            <div class="program-info">
+              <h3 class="program-name">Clínicas para Adultos</h3>
+              <p class="program-desc">Aulas em pequenos grupos para aprimorar técnica, ritmo e condicionamento.</p>
+            </div>
+            <div class="program-arrow-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </div>
+          </a>
+        </li>
+        <li class="program-row inview-block" style="transition-delay: 270ms;">
+          <a href="#private" class="program-link">
+            <span class="program-index">04</span>
+            <div class="program-info">
+              <h3 class="program-name">Aulas Particulares</h3>
+              <p class="program-desc">Sessões individuais personalizadas de acordo com seus objetivos e horários.</p>
+            </div>
+            <div class="program-arrow-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 4. FACILITIES SECTION -->
+    <section class="facilities-section" id="facilities">
+      <div class="facilities-grid">
+        <div class="facilities-intro-col">
+          <div class="facilities-intro-icon inview-block">
+            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/3.webp" alt="Atleta jogando no saibro">
+          </div>
+          <h2 class="facilities-h2" id="facilities-title">
+            <span class="clip-line"><span class="mask-target">Conheça Nossas</span></span>
+            <span class="clip-line"><span class="mask-target">Quadras de</span></span>
+            <span class="clip-line"><span class="mask-target">Primeira Linha</span></span>
+          </h2>
+          <p class="facilities-body inview-block" id="facilities-body">
+            Reserve uma quadra para treinos focados, treinos em equipe ou partidas privadas — jogue nas mesmas condições do circuito profissional.
+          </p>
+        </div>
+
+        <div class="facilities-cards-row">
+          <!-- Quadra 1: Saibro -->
+          <figure class="court-figure inview-block" style="transition-delay: 0ms;">
+            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/1.webp" alt="Quadra de saibro externa">
+            <figcaption class="court-caption court-caption-clay">
+              <div class="court-name">Redline Clay</div>
+              <div class="court-desc">Saibro externo rápido para ralis longos e intensos.</div>
+            </figcaption>
+          </figure>
+          <!-- Quadra 2: Rápida -->
+          <figure class="court-figure inview-block" style="transition-delay: 140ms;">
+            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/4.webp" alt="Quadra rápida iluminada">
+            <figcaption class="court-caption court-caption-blue">
+              <div class="court-name">Harbor Court</div>
+              <div class="court-desc">Quadra rápida protegida para precisão e jogos noturnos.</div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. STATS SECTION -->
+    <section class="stats-section" id="stats">
+      <div class="eyebrow eyebrow-light">
+        <span class="eyebrow-dot"></span>
+        <span>Números do Clube</span>
+      </div>
+      <h2 class="stats-h2" id="stats-title">
+        <span class="clip-line"><span class="mask-target">Um Clube Que</span></span>
+        <span class="clip-line"><span class="mask-target">Mantém o Placar</span></span>
+      </h2>
+
+      <dl class="stats-grid">
+        <div class="stat-cell inview-block" style="transition-delay: 0ms;">
+          <dt class="stat-val">24</dt>
+          <dd class="stat-label">Treinadores Certificados</dd>
+        </div>
+        <div class="stat-cell inview-block" style="transition-delay: 110ms;">
+          <dt class="stat-val">12</dt>
+          <dd class="stat-label">Quadras de Campeonato</dd>
+        </div>
+        <div class="stat-cell inview-block" style="transition-delay: 220ms;">
+          <dt class="stat-val">9K+</dt>
+          <dd class="stat-label">Membros em Treinamento</dd>
+        </div>
+        <div class="stat-cell inview-block" style="transition-delay: 330ms;">
+          <dt class="stat-val">15</dt>
+          <dd class="stat-label">Anos de Tradição</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 6. TESTIMONIALS SECTION -->
+    <section class="testimonials-section" id="testimonials">
+      <div class="eyebrow eyebrow-dark">
+        <span class="eyebrow-dot"></span>
+        <span>O Que Dizem os Jogadores</span>
+      </div>
+      <h2 class="testimonials-h2" id="testimonials-title">
+        <span class="clip-line"><span class="mask-target">Aprovado Por Quem</span></span>
+        <span class="clip-line"><span class="mask-target">Vive o Vestiário</span></span>
+      </h2>
+
+      <ul class="testimonials-grid">
+        <li class="inview-block" style="transition-delay: 0ms;">
+          <figure class="testimonial-card">
+            <div class="quote-mark">&ldquo;</div>
+            <blockquote class="testimonial-text">
+              Subi o nível do meu saque em uma única temporada. O treinamento é extremamente detalhado e traz resultados imediatos.
+            </blockquote>
+            <figcaption class="testimonial-author">
+              <div class="author-name">Priya Anand</div>
+              <div class="author-role">Equipe de Alto Rendimento</div>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="inview-block" style="transition-delay: 120ms;">
+          <figure class="testimonial-card">
+            <div class="quote-mark">&ldquo;</div>
+            <blockquote class="testimonial-text">
+              As melhores quadras da cidade e uma equipe que trata cada associado com a atenção de um atleta de elite.
+            </blockquote>
+            <figcaption class="testimonial-author">
+              <div class="author-name">Lukas Brenner</div>
+              <div class="author-role">Clínicas para Adultos</div>
+            </figcaption>
+          </figure>
+        </li>
+        <li class="inview-block" style="transition-delay: 240ms;">
+          <figure class="testimonial-card">
+            <div class="quote-mark">&ldquo;</div>
+            <blockquote class="testimonial-text">
+              Minha filha passou de iniciante tímida a campeã do clube. Valeu cada minuto de dedicação.
+            </blockquote>
+            <figcaption class="testimonial-author">
+              <div class="author-name">Dana Okafor</div>
+              <div class="author-role">Mãe, Formação Juvenil</div>
+            </figcaption>
+          </figure>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 7. FOOTER -->
+    <footer class="site-footer" id="contact">
+      <div class="footer-cta-band">
+        <div>
+          <div class="eyebrow eyebrow-light">
+            <span class="eyebrow-dot"></span>
+            <span>Comece Agora</span>
+          </div>
+          <h2 class="footer-cta-h2">
+            <span class="clip-line"><span class="mask-target">Pronto Para</span></span>
+            <span class="clip-line"><span class="mask-target">Jogar?</span></span>
+          </h2>
+        </div>
+        <button class="pill-btn pill-btn-light open-modal-trigger inview-block" style="transition-delay: 150ms;">
+          <span>Agendar Visita</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="footer-cols-grid">
+        <div class="footer-brand-col">
+          <div class="footer-brand-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M4.8 5.6A9 9 0 0 0 4.8 18.4"/>
+              <path d="M19.2 5.6a9 9 0 0 1 0 12.8"/>
+            </svg>
+            <span>Baseline</span>
+          </div>
+          <p class="footer-blurb">
+            Um clube e academia exclusivo para membros, onde o treino focado encontra quadras de padrão internacional.
+          </p>
+          <address class="footer-address">
+            <a href="mailto:play@baseline.club">play@baseline.club</a>
+            <a href="tel:+12125550148">+1 (212) 555-0148</a>
+            <span class="footer-address-line">120 Court Lane, Nova York</span>
+          </address>
+        </div>
+
+        <nav class="footer-nav-col" aria-label="Programas">
+          <h3>Programas</h3>
+          <ul>
+            <li><a href="#junior">Formação Juvenil</a></li>
+            <li><a href="#performance">Alto Rendimento</a></li>
+            <li><a href="#adult">Clínicas Adultos</a></li>
+            <li><a href="#private">Aulas Particulares</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer-nav-col" aria-label="O Clube">
+          <h3>O Clube</h3>
+          <ul>
+            <li><a href="#membership">Associações</a></li>
+            <li><a href="#facilities">Instalações</a></li>
+            <li><a href="#club">Eventos</a></li>
+            <li><a href="#shop">Loja Pro Shop</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer-nav-col" aria-label="Institucional">
+          <h3>Institucional</h3>
+          <ul>
+            <li><a href="#about">Sobre Nós</a></li>
+            <li><a href="#programs">Treinadores</a></li>
+            <li><a href="#careers">Carreiras</a></li>
+            <li><a href="#contact">Fale Conosco</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 Baseline Tennis Club. Todos os direitos reservados.</div>
+        <div class="footer-social-links">
+          <a href="#instagram" aria-label="Instagram">Instagram</a>
+          <a href="#x" aria-label="X">X</a>
+          <a href="#youtube" aria-label="YouTube">YouTube</a>
+          <a href="#linkedin" aria-label="LinkedIn">LinkedIn</a>
+        </div>
+        <div class="footer-legal-links">
+          <a href="#privacy">Privacidade</a>
+          <a href="#terms">Termos</a>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ========================================================================
+       MENU OVERLAY EM TELA CHEIA
+       ======================================================================== -->
+  <div id="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu Principal">
+    <div class="menu-backdrop" id="menu-backdrop"></div>
+    <div class="menu-panel">
+      <div class="menu-inner-wrap">
+        <div class="menu-top-row">
+          <div class="header-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M4.8 5.6A9 9 0 0 0 4.8 18.4"/>
+              <path d="M19.2 5.6a9 9 0 0 1 0 12.8"/>
+            </svg>
+            <span>Baseline</span>
+          </div>
+          <button class="close-circle-btn" id="close-menu-btn" aria-label="Fechar menu">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <nav class="menu-nav-links" aria-label="Navegação em tela cheia">
+          <a href="#programs" class="menu-big-link menu-link-item">Programas</a>
+          <a href="#facilities" class="menu-big-link menu-link-item">Estrutura</a>
+          <a href="#testimonials" class="menu-big-link menu-link-item">Avaliações</a>
+          <a href="#contact" class="menu-big-link menu-link-item">Contato</a>
+        </nav>
+
+        <div class="menu-bottom-row">
+          <button class="pill-btn pill-btn-light open-modal-trigger">
+            <span>Agendar Visita</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+          <div class="menu-social-links">
+            <a href="#instagram">Instagram</a>
+            <a href="#x">X</a>
+            <a href="#youtube">YouTube</a>
+            <a href="#linkedin">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL DE CONTATO / AGENDAMENTO
+       ======================================================================== -->
+  <div id="contact-modal" role="dialog" aria-modal="true" aria-label="Agendar uma visita">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-header-row">
+        <div>
+          <div class="eyebrow eyebrow-dark">
+            <span class="eyebrow-dot"></span>
+            <span>Agendar Uma Visita</span>
+          </div>
+          <h2 class="modal-h2">
+            <span class="clip-line"><span class="mask-target">Venha Ver</span></span>
+            <span class="clip-line"><span class="mask-target">Nossas Quadras</span></span>
+          </h2>
+        </div>
+        <button class="modal-close-btn" id="close-modal-btn" aria-label="Fechar janela">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <form class="modal-form" id="contact-form" novalidate>
+        <div class="form-group">
+          <label for="user-name">Nome Completo</label>
+          <input type="text" id="user-name" class="form-input" placeholder="Alex Rivera" required>
+        </div>
+        <div class="form-group">
+          <label for="user-email">E-mail</label>
+          <input type="email" id="user-email" class="form-input" placeholder="seu@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="user-interest">O que gostaria de praticar?</label>
+          <textarea id="user-interest" class="form-input" rows="3" placeholder="Gostaria de agendar uma aula particular no saibro..."></textarea>
+        </div>
+        <button type="submit" class="modal-submit-btn" id="modal-submit-btn">Solicitar Visita</button>
+      </form>
+
+      <div class="modal-success-box" id="modal-success-box" style="display: none;">
+        <div class="success-check-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h3 style="font-size: 1.125rem; font-weight: 500;">Solicitação Recebida</h3>
+        <p style="font-size: 0.875rem; color: var(--ink-soft); line-height: 1.5;" id="success-user-msg">
+          Obrigado! Nossa equipe entrará em contato em breve para confirmar seu horário.
+        </p>
+        <button class="pill-btn pill-btn-solid" id="success-done-btn" style="margin-top: 0.5rem;">Concluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       LÓGICA JAVASCRIPT & MOTOR DE ANIMAÇÕES
+       ======================================================================== -->
+  <script type="module">
+    import Lenis from 'lenis';
+
+    // 1. Grid Rem Adaptativo para Telas Grandes (>1920px)
+    function handleAdaptiveGrid() {
+      const FONT_BASE = 16;
+      const BASE_W = 1920;
+      const COEF = 0.6666;
+      const html = document.documentElement;
+      const w = window.innerWidth;
+      const reduction = ((BASE_W - w) / BASE_W) * 100 * COEF;
+      const size = FONT_BASE - (FONT_BASE * reduction) / 100;
+      if (size > FONT_BASE) {
+        html.style.fontSize = size + "px";
+      } else {
+        html.style.removeProperty("font-size");
+      }
+    }
+    handleAdaptiveGrid();
+    window.addEventListener('resize', handleAdaptiveGrid);
+
+    // 2. Inicialização do Lenis Smooth Scroll
+    window.scrollTo(0, 0);
+    const lenis = new Lenis({
+      smoothWheel: true
+    });
+
+    function raf(t) {
+      lenis.raf(t);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Bloqueio / Liberação de Scroll Seguro
+    let scrollLocked = false;
+    function setScrollLock(lock) {
+      scrollLocked = lock;
+      const html = document.documentElement;
+      if (lock) {
+        lenis.stop();
+        html.style.position = "relative";
+        html.style.overflow = "hidden";
+        html.style.height = "100%";
+      } else {
+        lenis.start();
+        html.style.removeProperty("position");
+        html.style.removeProperty("overflow");
+        html.style.removeProperty("height");
+      }
+    }
+
+    // Trava de scroll enquanto o carregador inicial está ativo
+    setScrollLock(true);
+
+    // 3. Sistema de Revelação por Observação (Inview & Clip-Mask)
+    const inviewObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-inview');
+          inviewObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    });
+
+    document.querySelectorAll('.inview-block, .programs-h2, .facilities-h2, .stats-h2, .testimonials-h2, .footer-cta-h2').forEach(el => {
+      inviewObserver.observe(el);
+    });
+
+    // 4. Efeito de Parallax na Imagem do Hero
+    const heroSection = document.getElementById('hero');
+    const heroPlate = document.getElementById('hero-plate');
+
+    lenis.on('scroll', (e) => {
+      if (!heroSection || !heroPlate) return;
+      const rect = heroSection.getBoundingClientRect();
+      const h = heroSection.offsetHeight;
+      if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+        const progress = Math.min(Math.max((window.innerHeight - rect.top) / (window.innerHeight + h), 0), 1);
+        const shiftY = progress * 12; // 0% -> 12%
+        heroPlate.style.transform = `translateY(${shiftY}%)`;
+      }
+    });
+
+    // 5. Carregador Inicial / Loader Sequence
+    const loader = document.getElementById('page-loader');
+    const loaderBrand = document.getElementById('loader-brand');
+    const loaderFill = document.getElementById('loader-bar-fill');
+    const heroTitle = document.getElementById('hero-title');
+    const heroTagline = document.getElementById('hero-tagline');
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const MIN_VISIBLE_MS = prefersReducedMotion ? 200 : 1400;
+    const MAX_VISIBLE_MS = prefersReducedMotion ? 400 : 2600;
+    const EXIT_MS = prefersReducedMotion ? 50 : 850;
+
+    let loaderTriggered = false;
+
+    function runLoaderProgress() {
+      // Revela brand do loader
+      setTimeout(() => {
+        loaderBrand.style.opacity = "1";
+        loaderBrand.style.transform = "translateY(0)";
+      }, 50);
+
+      // Preenchimento da barra
+      setTimeout(() => {
+        loaderFill.style.transform = "scaleX(1)";
+      }, 120);
+    }
+
+    function completeLoader() {
+      if (loaderTriggered) return;
+      loaderTriggered = true;
+
+      setTimeout(() => {
+        // Levanta a cortina
+        loader.style.transform = "translateY(-105%)";
+        setScrollLock(false);
+
+        // Dispara as animações escalonadas do Hero
+        setTimeout(() => {
+          // Revelação do Título
+          const titleWords = heroTitle.querySelectorAll('.mask-target');
+          titleWords.forEach((word, idx) => {
+            setTimeout(() => {
+              word.style.transform = "translateY(0)";
+              word.style.opacity = "1";
+            }, idx * 140);
+          });
+
+          // Revelação da Tagline
+          const taglineLines = heroTagline.querySelectorAll('.mask-target');
+          taglineLines.forEach((line, idx) => {
+            setTimeout(() => {
+              line.style.transform = "translateY(0)";
+              line.style.opacity = "1";
+            }, 350 + (idx * 110));
+          });
+
+          // Cards inferiores do Hero
+          setTimeout(() => {
+            document.getElementById('hero-collection-slider').classList.add('is-inview');
+          }, 650);
+          setTimeout(() => {
+            document.getElementById('hero-membership-card').classList.add('is-inview');
+          }, 780);
+
+        }, 100);
+
+        // Remove do DOM após saída completa
+        setTimeout(() => {
+          loader.remove();
+        }, EXIT_MS);
+
+      }, MIN_VISIBLE_MS);
+    }
+
+    runLoaderProgress();
+
+    if (document.readyState === 'complete') {
+      completeLoader();
+    } else {
+      window.addEventListener('load', completeLoader);
+      setTimeout(completeLoader, MAX_VISIBLE_MS);
+    }
+
+    // 6. Carrossel de Coleção do Hero
+    const collectionData = [
+      {
+        img: "https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/2.webp",
+        brand: "Baseline Pro",
+        title: "Equipamentos em Destaque",
+        cta: "Ver equipamentos &rarr;",
+        alt: "Jogador batendo backhand na quadra"
+      },
+      {
+        img: "https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/3.webp",
+        brand: "Court Series",
+        title: "Lançamento de Verão",
+        cta: "Ver coleção &rarr;",
+        alt: "Jogador se esticando para forehand no saibro"
+      },
+      {
+        img: "https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/5.webp",
+        brand: "Linha Academia",
+        title: "Coleção Juvenil",
+        cta: "Explorar juvenis &rarr;",
+        alt: "Jogador em posição de espera no saibro"
+      }
+    ];
+
+    let currentColIdx = 0;
+    const colCard = document.getElementById('collection-card');
+    const colImg = document.getElementById('col-img');
+    const colBrand = document.getElementById('col-brand');
+    const colTitle = document.getElementById('col-title');
+    const colCta = document.getElementById('col-cta');
+    const colDots = document.querySelectorAll('#col-dots .dot-item');
+
+    function updateCollectionSlide(nextIdx) {
+      if (nextIdx === currentColIdx) return;
+      currentColIdx = nextIdx;
+
+      // Animação de saída
+      colCard.style.transition = "opacity 0.25s var(--ease-out-expo), transform 0.25s var(--ease-out-expo)";
+      colCard.style.opacity = "0";
+      colCard.style.transform = "translateY(16px) scale(0.96)";
+
+      setTimeout(() => {
+        const item = collectionData[currentColIdx];
+        colImg.src = item.img;
+        colImg.alt = item.alt;
+        colBrand.textContent = item.brand;
+        colTitle.textContent = item.title;
+        colCta.innerHTML = item.cta;
+
+        colDots.forEach((d, i) => {
+          d.classList.toggle('active', i === currentColIdx);
+        });
+
+        // Animação de entrada
+        colCard.style.opacity = "1";
+        colCard.style.transform = "translateY(0) scale(1)";
+      }, 250);
+    }
+
+    colDots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => updateCollectionSlide(idx));
+    });
+
+    // Autoplay do carrossel
+    setInterval(() => {
+      if (loaderTriggered) {
+        const next = (currentColIdx + 1) % collectionData.length;
+        updateCollectionSlide(next);
+      }
+    }, 3800);
+
+    // 7. Carrossel de Treinadores & Ghost Words (Seção Trust)
+    const coachData = [
+      {
+        img: "https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/5.webp",
+        name: "Marco Vidal",
+        role: "Treinador Chefe",
+        alt: "Treinador Marco Vidal em posição na quadra de saibro",
+        headline: ["Treino", "Focado em", "Altos", "Resultados"]
+      },
+      {
+        img: "https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/4.webp",
+        name: "Elena Sokolova",
+        role: "Treinadora de Performance",
+        alt: "Treinadora Elena Sokolova na terminação do saque",
+        headline: ["Jogo Mais", "Rápido &", "Mais", "Preciso"]
+      },
+      {
+        img: "https://api.getlayers.ai/storage/v1/object/public/public/assets/baseline-88535e4000/1.webp",
+        name: "James Okoro",
+        role: "Líder de Juvenis",
+        alt: "Treinador James Okoro aguardando retorno no saibro",
+        headline: ["Novos", "Campeões", "Nascem", "Aqui"]
+      }
+    ];
+
+    let currentCoachIdx = 0;
+    const coachImg = document.getElementById('coach-photo');
+    const coachName = document.getElementById('coach-name');
+    const coachRole = document.getElementById('coach-role');
+    const coachDots = document.querySelectorAll('#coach-dots .dot-item');
+    const ghostWords = [
+      document.getElementById('gw-0'),
+      document.getElementById('gw-1'),
+      document.getElementById('gw-2'),
+      document.getElementById('gw-3')
+    ];
+
+    function setCoachSlide(nextIdx) {
+      currentCoachIdx = (nextIdx + coachData.length) % coachData.length;
+      const data = coachData[currentCoachIdx];
+
+      // Fade na imagem
+      coachImg.style.opacity = "0";
+      setTimeout(() => {
+        coachImg.src = data.img;
+        coachImg.alt = data.alt;
+        coachName.textContent = data.name;
+        coachRole.textContent = data.role;
+        coachImg.style.opacity = "1";
+      }, 200);
+
+      // Atualiza Dots
+      coachDots.forEach((d, i) => {
+        d.classList.toggle('active', i === currentCoachIdx);
+      });
+
+      // Dispara animação das Ghost Words
+      ghostWords.forEach((gw, i) => {
+        gw.style.transition = "none";
+        gw.style.transform = "translateY(115%)";
+        gw.style.opacity = "0";
+        gw.textContent = data.headline[i];
+        
+        // Força reflow
+        void gw.offsetWidth;
+
+        setTimeout(() => {
+          gw.style.transition = "transform 0.7s var(--ease-out-expo), opacity 0.6s";
+          gw.style.transform = "translateY(0)";
+          gw.style.opacity = "1";
+        }, 30 * i);
+      });
+    }
+
+    document.getElementById('coach-prev').addEventListener('click', () => {
+      setCoachSlide(currentCoachIdx - 1);
+    });
+    document.getElementById('coach-next').addEventListener('click', () => {
+      setCoachSlide(currentCoachIdx + 1);
+    });
+    coachDots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => setCoachSlide(idx));
+    });
+
+    // Parallax Suave nas Ghost Words ao Rolar
+    const trustSection = document.getElementById('about');
+    lenis.on('scroll', () => {
+      if (!trustSection) return;
+      const rect = trustSection.getBoundingClientRect();
+      const h = trustSection.offsetHeight;
+      if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+        const progress = (window.innerHeight - rect.top) / (window.innerHeight + h);
+        const pCentered = (progress - 0.5) * 2; // -1 a +1
+
+        // Parallax horizontal de cada palavra
+        if (ghostWords[0]) ghostWords[0].style.transform = `translateX(${pCentered * 3}%)`;
+        if (ghostWords[1]) ghostWords[1].style.transform = `translateX(${-pCentered * 3}%)`;
+        if (ghostWords[2]) ghostWords[2].style.transform = `translateX(${pCentered * 3}%)`;
+        if (ghostWords[3]) ghostWords[3].style.transform = `translateX(${-pCentered * 3}%)`;
+      }
+    });
+
+    // 8. Menu Overlay em Tela Cheia
+    const menuOverlay = document.getElementById('menu-overlay');
+    const openMenuBtn = document.getElementById('open-menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const menuBackdrop = document.getElementById('menu-backdrop');
+    const menuLinkItems = document.querySelectorAll('.menu-link-item');
+
+    function openMenu() {
+      setScrollLock(true);
+      menuOverlay.classList.add('is-active');
+    }
+
+    function closeMenu() {
+      menuOverlay.classList.remove('is-active');
+      if (!contactModal.classList.contains('is-active')) {
+        setScrollLock(false);
+      }
+    }
+
+    openMenuBtn.addEventListener('click', openMenu);
+    closeMenuBtn.addEventListener('click', closeMenu);
+    menuBackdrop.addEventListener('click', closeMenu);
+
+    menuLinkItems.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          closeMenu();
+          const target = document.querySelector(href);
+          if (target) {
+            setTimeout(() => {
+              lenis.scrollTo(target, { offset: 0, duration: 1.2 });
+            }, 300);
+          }
+        }
+      });
+    });
+
+    // 9. Modal de Contato / Agendamento
+    const contactModal = document.getElementById('contact-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const contactForm = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('modal-submit-btn');
+    const successBox = document.getElementById('modal-success-box');
+    const successUserMsg = document.getElementById('success-user-msg');
+    const successDoneBtn = document.getElementById('success-done-btn');
+    const modalTriggers = document.querySelectorAll('.open-modal-trigger');
+
+    function openModal() {
+      if (menuOverlay.classList.contains('is-active')) {
+        closeMenu();
+      }
+      setScrollLock(true);
+      contactModal.classList.add('is-active');
+      setTimeout(() => {
+        document.getElementById('user-name').focus();
+      }, 150);
+    }
+
+    function closeModal() {
+      contactModal.classList.remove('is-active');
+      setScrollLock(false);
+      setTimeout(() => {
+        contactForm.style.display = 'flex';
+        successBox.style.display = 'none';
+        contactForm.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Solicitar Visita';
+      }, 350);
+    }
+
+    modalTriggers.forEach(btn => btn.addEventListener('click', openModal));
+    closeModalBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+    successDoneBtn.addEventListener('click', closeModal);
+
+    // Envio do formulário simulado (Stub)
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameVal = document.getElementById('user-name').value.trim();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      setTimeout(() => {
+        contactForm.style.display = 'none';
+        const firstName = nameVal.split(' ')[0] || 'você';
+        successUserMsg.textContent = `Obrigado, ${firstName}! Nossa equipe entrará em contato em breve para confirmar seu horário.`;
+        successBox.style.display = 'flex';
+      }, 700);
+    });
+
+    // Tecla ESC fecha Menu e Modal
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (contactModal.classList.contains('is-active')) closeModal();
+        else if (menuOverlay.classList.contains('is-active')) closeMenu();
+      }
+    });
+
+    // Links de âncora suaves nativos com Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || href.length <= 1) return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          lenis.scrollTo(target, { offset: 0, duration: 1.2 });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

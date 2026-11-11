@@ -4,6 +4,10 @@ Coleção de modelos de site, seções e referências visuais que valem reaprove
 em melhorias futuras. Fica versionada junto com o projeto, então qualquer sessão
 nova neste repositório já enxerga o que está aqui.
 
+Os repositórios de modelo do GitHub do dono do projeto estão catalogados em
+[CATALOGO.md](CATALOGO.md), com o que cada um tem de aproveitável e o ranking de
+utilidade para a Serena. Quatro deles têm cópia local em `referencias/`.
+
 ## Como adicionar um modelo
 
 1. Mandar o material por um link (Google Drive, URL pública) ou colar o HTML na conversa.
